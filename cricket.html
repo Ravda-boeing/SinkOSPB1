@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink Cricket Simulator Pro 🏏</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: #f4f9ff;
+    }
+
+    button, select {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+
+    #result, #ticker, #scoreboard {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    #pitchArea {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      background: #b1e5a1;
+      overflow: hidden;
+      border: 2px solid #378f4b;
+      margin-top: 20px;
+    }
+
+    #ball {
+      position: absolute;
+      top: 90px;
+      left: -30px;
+      width: 30px;
+      height: 30px;
+      background: red;
+      border-radius: 50%;
+      animation: none;
+    }
+
+    @keyframes offspin {
+      0% { left: -30px; top: 90px; }
+      50% { left: 50%; top: 85px; }
+      100% { left: 100%; top: 75px; }
+    }
+
+    @keyframes legspin {
+      0% { left: -30px; top: 90px; }
+      50% { left: 50%; top: 95px; }
+      100% { left: 100%; top: 105px; }
+    }
+
+    @keyframes inswing {
+      0% { left: -30px; top: 90px; }
+      50% { left: 40%; top: 85px; }
+      100% { left: 100%; top: 90px; }
+    }
+
+    @keyframes outswing {
+      0% { left: -30px; top: 90px; }
+      50% { left: 60%; top: 85px; }
+      100% { left: 100%; top: 90px; }
+    }
+
+    @keyframes reverse {
+      0% { left: -30px; top: 90px; }
+      70% { left: 80%; top: 95px; }
+      100% { left: 100%; top: 80px; }
+    }
+
+    @keyframes wicketFlash {
+      0%, 100% { background: red; }
+      50% { background: yellow; }
+    }
+
+    #ball.animate.offspin { animation-name: offspin; }
+    #ball.animate.legspin { animation-name: legspin; }
+    #ball.animate.inswing { animation-name: inswing; }
+    #ball.animate.outswing { animation-name: outswing; }
+    #ball.animate.reverse { animation-name: reverse; }
+
+    #ball.wicketEffect {
+      animation: wicketFlash 0.4s ease-in-out;
+    }
+
+    #ticker {
+      border-top: 2px solid #ccc;
+      padding-top: 10px;
+      font-family: monospace;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sink Cricket Simulator Pro 🏏</h1>
+
+  <label for="pitch">Choose Pitch Condition:</label>
+  <select id="pitch">
+    <option value="flat">Flat - More runs</option>
+    <option value="dusty">Dusty - Moderate chance</option>
+    <option value="green">Green - Higher wicket risk</option>
+  </select><br>
+
+  <label for="ballType">Ball Type:</label>
+  <select id="ballType">
+    <option value="offspin">Off Spin</option>
+    <option value="legspin">Leg Spin</option>
+    <option value="inswing">In Swing</option>
+    <option value="outswing">Out Swing</option>
+    <option value="reverse">Reverse Swing</option>
+  </select><br>
+
+  <label for="speed">Speed (km/h):</label>
+  <select id="speed">
+    <option>90</option>
+    <option>100</option>
+    <option>110</option>
+    <option>120</option>
+    <option>130</option>
+    <option>140</option>
+    <option>150</option>
+  </select><br>
+
+  <button onclick="playBall()">Bowl!</button>
+
+  <div id="pitchArea"><div id="ball"></div></div>
+  <div id="result"></div>
+  <div id="scoreboard">Runs: 0 | Wickets: 0 | Balls: 0</div>
+  <div id="ticker">Live Ticker:</div>
+
+  <script>
+    let runs = 0, wickets = 0, balls = 0;
+    let tickerLog = [];
+
+    function playBall() {
+      if (balls >= 6 || wickets >= 2) {
+        document.getElementById('result').innerText = 'Over Complete!';
+        return;
+      }
+
+      balls++;
+      const pitch = document.getElementById("pitch").value;
+      const ballType = document.getElementById("ballType").value;
+      const speed = parseInt(document.getElementById("speed").value);
+      const animSpeed = Math.max(0.5, 2.5 - ((speed - 90) / 30)); // Faster ball = shorter duration
+
+      // Outcome logic based on pitch
+      let outcome;
+      switch (pitch) {
+        case 'flat': outcome = Math.floor(Math.random() * 9); break;
+        case 'dusty': outcome = Math.floor(Math.random() * 8); break;
+        case 'green': outcome = Math.floor(Math.random() * 7 + Math.random() * 2); break;
+      }
+
+      let resultText = "";
+      if (outcome >= 7) {
+        wickets++;
+        resultText = "WICKET! 💥";
+      } else {
+        runs += outcome;
+        resultText = `${outcome} run${outcome !== 1 ? 's' : ''}`;
+      }
+
+      // Animate ball
+      const ball = document.getElementById("ball");
+      ball.className = ""; // Reset classes
+      void ball.offsetWidth; // Reflow
+      ball.classList.add("animate", ballType);
+      ball.style.animationDuration = animSpeed + "s";
+
+      if (outcome >= 7) ball.classList.add("wicketEffect");
+
+      document.getElementById("result").innerText = resultText;
+      document.getElementById("scoreboard").innerText = `Runs: ${runs} | Wickets: ${wickets} | Balls: ${balls}`;
+      tickerLog.push(`[Ball ${balls}] ${resultText}`);
+      document.getElementById("ticker").innerText = "Live Ticker: " + tickerLog.join(" | ");
+    }
+  </script>
+</body>
+</html>

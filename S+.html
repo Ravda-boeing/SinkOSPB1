@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>S+ Mode Activation</title>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="S+.css">
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('default.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background-image 0.8s ease-in-out;
+    }
+
+    .splus-button {
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .splus-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+    }
+
+    .dialog-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .dialog-box {
+      background: #111;
+      border: 2px solid #b30000;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 400px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    .dialog-box p {
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .dialog-buttons {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .dialog-buttons button {
+      font-family: 'Orbitron', sans-serif;
+      background: #b30000;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dialog-buttons button:hover {
+      background: #ff0000;
+    }
+
+    .cancel-button {
+      background: #333;
+    }
+
+    .cancel-button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body id="sink-body">
+  <!-- S+ Mode Button Image -->
+  <img src="Screenshot 2025-06-19 164340.png" alt="S+ Mode Button" class="splus-button" onclick="showSPlusDialog()">
+
+  <!-- Dialog Box Overlay -->
+  <div class="dialog-overlay" id="splus-dialog">
+    <div class="dialog-box">
+      <p>
+        By clicking <strong>"Next"</strong>, your device will deliver a very similar power amount<br>
+        as the Acura NSX Type-S.<br><br>
+        It may even <em>sound</em> like one, if you catch our drift.
+      </p>
+      <div class="dialog-buttons">
+        <button onclick="engageSPlus()"><a href="LoadingtoS+.html">Next</a></button>
+        <button class="cancel-button" onclick="cancelSPlus()">No thanks</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSPlusDialog() {
+      document.getElementById('splus-dialog').style.display = 'flex';
+    }
+
+    function engageSPlus() {
+      document.getElementById('splus-dialog').style.display = 'none';
+      const body = document.getElementById('sink-body');
+      body.style.backgroundImage = "url('2.jpg')";
+      console.log("🚀 S+ Mode engaged: Background updated to Type-S.");
+    }
+
+    function cancelSPlus() {
+      document.getElementById('splus-dialog').style.display = 'none';
+      console.log("❌ S+ Mode canceled.");
+    }
+    const params = new URLSearchParams(window.location.search);
+    const isSPlus = params.get("mode") === "splus";
+
+    const body = document.getElementById("bg-body");
+    body.style.backgroundImage = isSPlus
+      ? "url('2.jpg')"
+      : "url(Version1.jpg')";
+    body.style.backgroundSize = "cover";
+    body.style.backgroundPosition = "center";
+
+  </script>
+</body>
+</html>

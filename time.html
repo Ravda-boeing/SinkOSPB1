@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Digital Reverse Clock</title>
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .clock-container {
+      background-color: #555; /* Gray rectangle */
+      padding: 40px 80px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #333;
+    }
+
+    .clock {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 6em;
+      color: white; /* White digits */
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="clock" id="reverseClock">2025</div>
+  </div>
+
+  <script>
+    let currentYear = 2025;
+    const targetYear = 1960;
+    const clock = document.getElementById('reverseClock');
+
+    function updateClock() {
+      if (currentYear > targetYear) {
+        currentYear--;
+        clock.textContent = currentYear;
+      } else {
+        clock.textContent = "🌀 1960";
+        clearInterval(timer);
+      }
+    }
+
+    const timer = setInterval(updateClock, 400); // 0.4 sec per year → 26 sec total
+  </script>
+</body>
+</html>

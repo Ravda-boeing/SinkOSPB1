@@ -1,0 +1,45 @@
+.sink-health-widget {
+  background: #1e1e2f;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 1.5em;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px #4ff;
+}
+.sink-health-widget h2 {
+  margin-top: 0;
+  color: #4ff;
+}
+.sink-health-widget label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+}
+.sink-health-widget input,
+.sink-health-widget textarea,
+.sink-health-widget select {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.25em;
+  border: none;
+  border-radius: 6px;
+  background: #333;
+  color: #fff;
+}
+.sink-health-widget button {
+  margin-top: 1.25em;
+  padding: 0.6em 1.2em;
+  background: #4ff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.sink-health-widget button:hover {
+  background: #0ff;
+}

@@ -1,0 +1,40 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: linear-gradient(to right, #1c1c1c, #3d3d3d);
+  color: #fff;
+}
+
+#scoreDisplay {
+  font-size: 20px;
+  margin: 10px 0;
+  color: #00ffcc;
+}
+
+#gameArea {
+  position: relative;
+  width: 300px;
+  height: 500px;
+  margin: 0 auto;
+  background: #333;
+  overflow: hidden;
+  border: 2px solid #fff;
+}
+
+#playerCar, #enemyCar {
+  position: absolute;
+  width: 50px;
+  height: 100px;
+}
+
+#playerCar {
+  background: red;
+  bottom: 10px;
+  left: 125px;
+}
+
+#enemyCar {
+  background: yellow;
+  top: -100px;
+  left: 125px;
+}

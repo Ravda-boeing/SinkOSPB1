@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <title>Finishing Up</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .circle {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 51, 153, 0.99), rgba(0, 0, 102, 0.99));
+            animation: pulse 5s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.99; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.99; }
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fade-text {
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circle"></div>
+
+    <div class="content">
+        <p id="mainText" class="fade-text">Finishing the download</p>
+        <p id="warningText" class="fade-text">Do Not Turn Off Your Device</p>
+    </div>
+
+    <script>
+        let counter = 0;
+        const messages = [
+            "Your device is almost ready",
+            "Finishing the download"
+        ];
+
+        function fadeText() {
+            const mainText = document.getElementById("mainText");
+            const warningText = document.getElementById("warningText");
+
+            mainText.textContent = messages[counter % 2];
+
+            mainText.style.opacity = "0";
+            warningText.style.opacity = "0";
+
+            setTimeout(() => {
+                mainText.style.opacity = "1";
+                warningText.style.opacity = "1";
+            }, 1000);
+
+            counter++;
+            if (counter < 10) {
+                setTimeout(fadeText, 5000);
+            } else {
+                window.location.href = "SinkOS.html";
+            }
+        }
+
+        fadeText();
+    </script>
+
+</body>
+</html>

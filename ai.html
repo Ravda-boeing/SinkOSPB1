@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink AI Core</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f3f3f3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .chatbox {
+      width: 600px;
+      max-width: 90vw;
+      background: #1a1a1a;
+      border: 2px solid #303030;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+    }
+
+    .messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      margin-bottom: 10px;
+    }
+
+    .messages div {
+      margin: 6px 0;
+    }
+
+    .user {
+      text-align: right;
+      color: #00ffe6;
+    }
+
+    .ai {
+      text-align: left;
+      color: #ffee58;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 90px);
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #222;
+      color: #f3f3f3;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 18px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #00ffe6;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00bfb3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chatbox">
+    <div class="messages" id="messages">
+      <div class="ai">🌀 Sink AI online. Ask me anything.</div>
+    </div>
+    <div>
+      <input type="text" id="userInput" placeholder="Enter your command..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const messagesDiv = document.getElementById('messages');
+
+    function appendMessage(content, sender) {
+      const msg = document.createElement('div');
+      msg.classList.add(sender);
+      msg.textContent = content;
+      messagesDiv.appendChild(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function getResponse(input) {
+      const normalized = input.toLowerCase();
+      if (normalized.includes("status")) {
+        return "System integrity: ✅ Stable | Sink OS. Memory: 47% | CPU: 12% | Glitchwave steady.";
+      } else if (normalized.includes("acars")) {
+        return "ACARS Link established. Last report: 00:29Z | Loading logs, this may take a while, in the meantime, go touch grass.";
+      } else if (normalized.includes("who are you")) {
+        return "I am Sink AI. Built for performance. Programmed to charm. Running on glitchwave drive.";
+      } else if (normalized.includes("hello")) {
+        return "Hello there comerade, What's cookin?.";
+      }
+       else if (normalized.includes("House OS vs Sink OS")) {
+       return "Sink OS and House OS are direct competitors to eachother, So Let's see how they stack up. Sink OS is built using HTML, CSS and Javascript. In it's pure form its faster and more efficient than House OS, and there's Also a S+ button, which allows the virtual dekstop to be 200% more faster than Sink OS in it's base form and still be 5% more efficient. Sink OS allows the user to  create documents, cue cards and medical logs. House OS Has all these features (exept no medical logs) Including more such as Calendars, and reminders. Sink OS features a start up sound whilst House OS does not. so if you want a virtual desktop that allows you to do the basics, Be more faster and efficient than it's competitor, then Sink OS is your go-to. If you want your virtual dekstop to go the extra mile and be more featuristic, House OS is your best bet. Both desktops are VERY similar to eachother to the diffrence shouldn't be too bad.";
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const userText = input.value.trim();
+      if (userText === "") return;
+      
+      appendMessage(userText, 'user');
+      setTimeout(() => {
+        const response = getResponse(userText);
+        appendMessage(response, 'ai');
+      }, 400 + Math.random() * 400); // simulate slight delay
+      
+      input.value = "";
+    }
+  </script>
+</body>
+</html>

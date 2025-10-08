@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Create Slide – SinkSlides</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 30px;
+    }
+    .slide-editor {
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #0a84ff;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+    .preview {
+      margin-top: 40px;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+    }
+    .slide-preview {
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-left: 3px solid #0a84ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create Your Presentation</h1>
+
+  <div class="slide-editor">
+    <input type="text" id="title" placeholder="Slide Title" />
+    <textarea id="content" rows="5" placeholder="Slide Content"></textarea>
+    <button onclick="addSlide()">Add Slide</button>
+  </div>
+
+  <div class="preview" id="preview">
+    <h2>Preview</h2>
+  </div>
+
+  <script>
+    function addSlide() {
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+      const preview = document.getElementById("preview");
+
+      if (!title && !content) return;
+
+      const slide = document.createElement("div");
+      slide.className = "slide-preview";
+      slide.innerHTML = `<h3>${title}</h3><p>${content}</p>`;
+      preview.appendChild(slide);
+
+      document.getElementById("title").value = '';
+      document.getElementById("content").value = '';
+    }
+  </script>
+</body>
+</html>

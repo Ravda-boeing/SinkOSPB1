@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink OS</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      overflow: hidden;
+      background-image: url('Version 1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: default;
+    }
+
+    #taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+    }
+
+    #leftSection {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    #sinkButton {
+      background-color: #222;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    #shutdownBox {
+      position: absolute;
+      bottom: 60px;
+      left: 0;
+      background-color: #333;
+      border: 1px solid #555;
+      padding: 10px;
+      display: none;
+      z-index: 1000;
+    }
+
+    #shutdownBox button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #centerIcons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .emoji-button {
+      background: none;
+      border: none;
+      font-size: 1em;
+      cursor: pointer;
+      color: white;
+    }
+
+    .emoji-button:hover {
+      transform: scale(1.2);
+    }
+
+    #clockContainer {
+      text-align: right;
+      font-size: 0.65em;
+      line-height: 1.2em;
+      min-width: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Taskbar -->
+  <div id="taskbar">
+    <div id="leftSection">
+      <button id="sinkButton">Sink</button>
+      <div id="shutdownBox">
+        <button onclick="window.location.href='shutdownn.html'">Shutdown</button>
+        <button onclick="window.location.href='shutdownr.html'">Restart</button>
+        <button onclick="window.location.href='lockscreen.html'">🔒 Lockscreen</button>
+      </div>
+    </div>
+
+    <div id="centerIcons">
+      <button class="emoji-button" onclick="window.location.href='settings.html'">⚙️</button>
+      <button class="emoji-button" onclick="window.location.href='ai.html'">🧠</button>
+      <button class="emoji-button" onclick="window.location.href='browser.html'">🌐</button>
+      <button class="emoji-button" onclick="window.location.href='create.html'">📺</button>
+      <button class="emoji-button" onclick="window.location.href='cricket.html'">🏏</button>
+      <button class="emoji-button" onclick="window.location.href='email.html'">💬</button>
+      <button class="emoji-button" onclick="window.location.href='game.html'">🎮</button>
+      <button class="emoji-button" onclick="window.location.href='health.html'">⚕️</button>
+      <button class="emoji-button" onclick="window.location.href='terminal.html'">💻</button>
+      <button class="emoji-button" onclick="window.location.href='bg.html'">🖥️</button>
+      <button class="emoji-button" onclick="window.location.href='writer.html'">📃</button>
+      <button class="emoji-button" onclick="window.location.href='sinkexplorer.html'">🗂️</button>
+    </div>
+
+    <div id="clockContainer">
+      <div id="timeDisplay"></div>
+      <div id="dateDisplay"></div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle shutdown box
+    document.getElementById("sinkButton").addEventListener("click", () => {
+      const box = document.getElementById("shutdownBox");
+      box.style.display = box.style.display === "none" ? "block" : "none";
+    });
+
+    // Update time and date
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', hour12: false });
+      const date = now.toLocaleDateString('en-AU', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+      document.getElementById("timeDisplay").textContent = time;
+      document.getElementById("dateDisplay").textContent = date;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Redirect when clicking near the center of the screen
+    document.addEventListener("click", (event) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const threshold = 100;
+
+      const clickedX = event.clientX;
+      const clickedY = event.clientY;
+
+      const isCenterClick =
+        Math.abs(clickedX - centerX) < threshold &&
+        Math.abs(clickedY - centerY) < threshold;
+
+      if (isCenterClick) {
+        window.location.href = "emergency.html";
+      }
+    });
+  </script>
+</body>
+</html>

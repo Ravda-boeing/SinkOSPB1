@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sink Racing: Neon Underground</title>
+  <style>
+    body { margin: 0; overflow: hidden; background-color: #0f0f0f; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="racingGameCanvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+<script>
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x101820); // Dark neon blue background
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('racingGameCanvas') });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // 🌌 Ambient Light for general visibility
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  // 🔦 Neon Point Light
+  const neonLight = new THREE.PointLight(0x00ffff, 2, 100);
+  neonLight.position.set(0, 5, 5);
+  scene.add(neonLight);
+
+  // 🛣️ Road Geometry
+  const roadGeometry = new THREE.PlaneGeometry(20, 100);
+  const roadMaterial = new THREE.MeshStandardMaterial({ color: 0x111111 });
+  const road = new THREE.Mesh(roadGeometry, roadMaterial);
+  road.rotation.x = -Math.PI / 2;
+  scene.add(road);
+
+  // 🚗 Glitch Car
+  const carGeometry = new THREE.BoxGeometry(1.5, 0.5, 3);
+  const carMaterial = new THREE.MeshStandardMaterial({ color: 0xff0055 });
+  const car = new THREE.Mesh(carGeometry, carMaterial);
+  car.position.set(0, 0.25, -40);
+  scene.add(car);
+
+  camera.position.set(0, 3, -30);
+  camera.lookAt(car.position);
+
+  // 🎞️ Animate it
+  function animate() {
+    requestAnimationFrame(animate);
+    car.position.z += 0.2;
+    camera.position.z = car.position.z - 5;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+</body>
+</html>

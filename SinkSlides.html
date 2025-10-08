@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>SinkSlides</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      height: 100vh;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .slide.active {
+      display: block;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .nav {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #222;
+      border: 1px solid #555;
+      color: #fff;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    button:hover {
+      background-color: #444;
+    }
+    #cta {
+      margin-top: 30px;
+      display: none;
+    }
+    #cta button {
+      background-color: #0a84ff;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide active" id="slide1">
+    <h1>Welcome to SinkSlides</h1>
+    <p>Lightweight. Fast. Just like Type S mode.</p>
+  </div>
+
+  <div class="slide" id="slide2">
+    <h1>Immersive UX</h1>
+    <p>Designs that respond like cockpit dials—clean and precise.</p>
+  </div>
+
+<div class="slide" id="slide3">
+  <h1>Integrated AI</h1>
+  <p>Summarize, rewrite, or enhance slides with Sink.AI.</p>
+  <div id="cta">
+    <h2>So what are you waiting for?</h2>
+    <p>Create a new presentation and let your ideas fly 🏁</p>
+    <button onclick="window.location.href='create.html'">Create Slide</button>
+  </div>
+</div>
+  <div class="nav">
+    <button onclick="prevSlide()">◀</button>
+    <button onclick="nextSlide()">▶</button>
+  </div>
+
+  <script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const cta = document.getElementById("cta");
+
+    function showSlide(index) {
+      slides[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+
+      if (current === 2 && !localStorage.getItem('sinkslides_firstTime')) {
+        cta.style.display = "block";
+      } else {
+        cta.style.display = "none";
+      }
+    }
+
+    function nextSlide() {
+      showSlide(current + 1);
+    }
+
+    function prevSlide() {
+      showSlide(current - 1);
+    }
+
+    window.onload = () => {
+      if (!localStorage.getItem('sinkslides_firstTime')) {
+        if (current === 2) {
+          cta.style.display = "block";
+        }
+        localStorage.setItem('sinkslides_firstTime', 'visited');
+      }
+    };
+  </script>
+</body>
+</html>

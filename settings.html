@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sink Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <style>
+    body {font-family: 'Segoe UI', sans-serif;background-color: #111;color: #0f0;margin: 0;padding: 0;}
+    .settings-container {display: flex;min-height: 100vh;}
+    .settings-sidebar {width: 250px;background-color: #000;padding: 20px;border-right: 2px solid #0f0;}
+    .settings-sidebar h2 {margin-bottom: 20px;}
+    .settings-sidebar ul {list-style: none;padding: 0;}
+    .settings-sidebar li {margin: 10px 0;cursor: pointer;color: #0f0;}
+    .settings-sidebar li:hover {text-decoration: underline;}
+    .settings-main {flex: 1;padding: 40px;}
+    h1, h2 {color: #0f0;}
+    .subtitle {margin-bottom: 30px;font-style: italic;}
+    .mode-cards {display: flex;gap: 20px;margin-bottom: 30px;}
+    .mode-card {background-color: #000;border: 2px solid #0f0;padding: 20px;border-radius: 8px;width: 250px;}
+    .mode-card button {margin-top: 10px;padding: 8px 12px;background-color: #0f0;color: #111;border: none;border-radius: 4px;cursor: pointer;}
+    .mode-card button:hover {background-color: #0c0;}
+    .power-settings {margin-top: 30px;}
+    .power-settings label {display: block;margin: 8px 0;}
+    .section {display: none;}
+    .section.active {display: block;}
+    .system-relic {margin-top: 30px;padding: 20px;border: 2px solid #0f0;background-color: #000;border-radius: 8px;}
+    .system-relic h2 {margin-top: 0;}
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <!-- Sidebar -->
+    <div class="settings-sidebar">
+      <h2>Settings</h2>
+      <ul>
+        <li onclick="showSection('system')">System Settings</li>
+        <li onclick="showSection('updates')">Updates</li>
+        <li onclick="showSection('about')">About</li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="settings-main">
+      <!-- System Settings Section -->
+      <div id="system" class="section">
+        <h1>System Settings</h1>
+        <p class="subtitle">Configure system settings</p>
+
+        <div class="mode-cards">
+          <div class="mode-card">
+            <h2>Sink OS Default Mode</h2>
+            <p>A balance of power and efficiency.</p>
+            <button onclick="activateDefaultMode()">Activate</button>
+          </div>
+
+          <div class="mode-card">
+            <h2>S+ Mode</h2>
+            <p>Maximum power for maximum productivity.</p>
+            <button onclick="window.location.href='s+.html'">Activate S+</button>
+          </div>
+        </div>
+
+        <div class="power-settings">
+          <h2>Turn Off After</h2>
+          <label><input type="radio" name="timeout" value="5"> 5 minutes</label>
+          <label><input type="radio" name="timeout" value="10"> 10 minutes</label>
+          <label><input type="radio" name="timeout" value="30"> 30 minutes</label>
+          <label><input type="radio" name="timeout" value="never" checked> Never</label>
+        </div>
+      </div>
+
+      <!-- Updates Section -->
+      <div id="updates" class="section">
+        <h1>Updates</h1>
+        <p>Check for updates here.</p>
+      </div>
+
+      <!-- About Section -->
+      <div id="about" class="section">
+        <h1>About</h1>
+        <h3>About Sink OS</h3>
+        <p>Sink OS Version: Public Beta 1 </p>
+        <p>Sink OS Build date: Oct 22 2025</p>
+        <p>Sink OS Build number: 251022</p>
+        <p>Sink OS Version Support End date: November 3 2025</p>
+        <p>Sink OS Build Codename: K E V I N</p>
+
+        <!-- Sink OS Diagnostic Relic -->
+        <div class="system-relic">
+          <h2>🧬 Your PC Specs</h2>
+          <p><strong>Platform:</strong> <span id="platform"></span></p>
+          <p><strong>Estimated RAM:</strong> <span id="memory"></span> GB</p>
+          <p><strong>Logical CPU Cores:</strong> <span id="cores"></span></p>
+          <p><strong>Screen Resolution:</strong> <span id="resolution"></span></p>
+        </div>
+
+        <!-- Tiny text below the specs box -->
+        <p style="font-size: 11px;">Sink OS identified your platform, RAM, CPU cores, and screen resolution using JavaScript. These values are reported directly by your browser—no scanning or external access involved. Accuracy depends on browser support and device settings..</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function activateDefaultMode() {
+      alert("Sink OS Default Mode Activated!");
+    }
+
+    // --- Inactivity Timer Logic ---
+    let inactivityTimer;
+    let timeoutMinutes = null;
+
+    function setInactivityTimer(minutes) {
+      timeoutMinutes = minutes;
+      resetInactivityTimer();
+    }
+
+    function resetInactivityTimer() {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      if (!timeoutMinutes || timeoutMinutes === "never") return;
+      inactivityTimer = setTimeout(() => {
+        window.location.href = "Black.html";
+      }, timeoutMinutes * 60 * 1000);
+    }
+
+    ["mousemove", "keydown", "click"].forEach(evt => {
+      document.addEventListener(evt, resetInactivityTimer);
+    });
+
+    document.querySelectorAll("input[name='timeout']").forEach(radio => {
+      radio.addEventListener("change", e => {
+        if (e.target.value === "never") {
+          timeoutMinutes = null;
+          clearTimeout(inactivityTimer);
+        } else {
+          setInactivityTimer(parseInt(e.target.value));
+        }
+      });
+    });
+
+    // --- Sink OS Diagnostic Relic ---
+    const platform = navigator.platform || "Unknown";
+    const memory = navigator.deviceMemory || "Unavailable";
+    const cores = navigator.hardwareConcurrency || "Unavailable";
+    const resolution = `${screen.width} × ${screen.height}`;
+
+    document.getElementById("platform").textContent = platform;
+    document.getElementById("memory").textContent = memory;
+    document.getElementById("cores").textContent = cores;
+    document.getElementById("resolution").textContent = resolution;
+  </script>
+</body>
+</html>

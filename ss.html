@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="favicon.png" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Emergency Password change</title>
+        <style>
+            body{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+             }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Emergency Password change</h1>
+        <h3 style="text-align: center;">If you have forgotten your password, you can change it here. Please note that this will reset your current password.</h3>
+          <div class="container">
+             <h2>Set Your Password</h2>
+             <input type="password" id="password" placeholder="Enter password" />
+             <input type="password" id="confirmPassword" placeholder="Confirm password" />
+             <button onclick="setPassword()">Next</button>
+            <div class="error" id="errorMsg"></div>
+         </div>
+         <script>
+            function setPassword() {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const errorMsg = document.getElementById('errorMsg');
+
+                if (password === '' || confirmPassword === '') {
+                    errorMsg.textContent = 'Please fill in both fields.';
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    errorMsg.textContent = 'Passwords do not match.';
+                    return;
+                }
+
+                // Here you would typically send the new password to the server
+                // For this example, we'll just log it to the console
+                console.log('New password set:', password);
+                alert('Password successfully changed!');
+                // Redirect to login or another appropriate page
+                window.location.href = 'lockscreen.html'; // Change to your login page
+            }
+        </script>
+    </body>
+</html>

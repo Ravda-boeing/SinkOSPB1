@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink OS - Explorer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #f0f0f0;
+    }
+
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: white;
+      z-index: 1000;
+    }
+
+    .start-button {
+      cursor: pointer;
+    }
+
+    .taskbar-icons a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: white;
+      font-size: 20px;
+    }
+
+    .clock {
+      font-family: monospace;
+    }
+
+    /* Start Menu */
+    #start-menu {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 30, 30, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      padding: 20px;
+      width: 220px;
+      z-index: 999;
+      text-align: center;
+    }
+
+    #start-menu.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .start-menu-item {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .start-menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    /* App Window */
+    .app-window {
+      margin: 70px auto;
+      max-width: 600px;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .app-window header {
+      background: #333;
+      color: white;
+      padding: 14px 20px;
+      font-size: 1.2rem;
+    }
+
+    .file-list {
+      padding: 20px;
+    }
+
+    .file {
+      background: #f7f7f7;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .file:hover {
+      background: #e0ecff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <div class="start-button">🌀 Sink</div>
+    <div class="taskbar-icons">
+      <a href="settings.html" title="Settings">⚙️</a>
+      <a href="browser.html" title="Sink Browser">🌐</a>
+      <a href="ai.html" title="AI">🧠</a>
+      <a href="writer.html" title="Writer">📃</a>
+      <a href="#" title="Sink Explorer" onclick="showSinkExplorer()">🗂️</a>
+    </div>
+    <div class="clock" id="clock"></div>
+  </div>
+
+  <!-- Start Menu -->
+  <div id="start-menu">
+    <div class="start-menu-item" id="shutdown-btn">🔻 Shutdown</div>
+  </div>
+
+  <!-- Sink Explorer App Window -->
+  <div id="sink-explorer-app" class="app-window" style="display: none;">
+    <header>Sink Explorer</header>
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <script>
+    // Start menu toggle
+    const startButton = document.querySelector(".start-button");
+    const startMenu = document.getElementById("start-menu");
+    const shutdownBtn = document.getElementById("shutdown-btn");
+
+    startButton.addEventListener("click", () => {
+      startMenu.classList.toggle("visible");
+    });
+
+    shutdownBtn.addEventListener("click", () => {
+      alert("Sink OS is powering off... 💤");
+      document.body.style.transition = "opacity 1s ease";
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = "shutdown.html";
+      }, 1000);
+    });
+
+    // Clock logic
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Sink Explorer logic
+    function showSinkExplorer() {
+      const explorer = document.getElementById("sink-explorer-app");
+      explorer.style.display = "block";
+
+      const fileList = document.getElementById("fileList");
+      fileList.innerHTML = "";
+
+      const keys = Object.keys(localStorage);
+      if (keys.length === 0) {
+        fileList.innerHTML = "<p>No files found. Try saving from Writer!</p>";
+        return;
+      }
+
+      keys.forEach(key => {
+        const div = document.createElement("div");
+        div.className = "file";
+        div.textContent = key;
+        div.onclick = () => {
+          const blob = new Blob([localStorage.getItem(key)], { type: "text/html" });
+          const url = URL.createObjectURL(blob);
+          window.open(url, "_blank");
+        };
+        fileList.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>

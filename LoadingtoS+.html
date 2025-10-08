@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Engage S⁺ Mode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: #000;
+      color: #0f0;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .glow-backdrop {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,0,0,0.6) 0%, transparent 80%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: pulse 2s infinite;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.7); opacity: 1; }
+    }
+
+    .status-container {
+      z-index: 1;
+    }
+
+    .status-message {
+      font-size: 1.8em;
+      margin-bottom: 1em;
+    }
+
+    .do-not-turn-off {
+      font-size: 1.2em;
+    }
+
+    .do-not-turn-off em {
+      font-style: italic;
+      color: #f33;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-backdrop"></div>
+  <div class="status-container">
+    <div class="status-message" id="statusText">Revving into S⁺ mode...</div>
+    <div class="do-not-turn-off">
+      Do Not turn off your Device<br/>
+      <em>(Unless you consider Sink OS the Peel P50)</em>
+    </div>
+  </div>
+
+  <script>
+    const phrases = [
+      "Revving into S⁺ mode...",
+      "Roaring into S⁺ mode...",
+      "Changing gears to S⁺ mode...",
+      "Demolishing House OS in nitro mode with S⁺ Mode..."
+    ];
+
+    let index = 0;
+    const textElement = document.getElementById("statusText");
+
+    setInterval(() => {
+      index = (index + 1) % phrases.length;
+      textElement.textContent = phrases[index];
+    }, 2000);
+
+    setTimeout(() => {
+  localStorage.setItem("bgImage", "2.jpg");
+  window.location.href = "bg.html";
+}, 10000); // You can adjust this delay to match when the animation feels “done”
+  </script>
+</body>
+</html>

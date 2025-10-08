@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resetting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #0ff;
+    }
+
+    .bubble {
+      width: 200px;
+      height: 200px;
+      background-color: royalblue;
+      border-radius: 50%;
+      animation: pulse 3s infinite ease-in-out;
+      margin-bottom: 60px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(1); }
+    }
+
+    .fade-text {
+      font-size: 2.5em;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInOut 4s ease-in-out infinite;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      25% { opacity: 1; }
+      75% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .static-text {
+      font-size: 1.2em;
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble"></div>
+  <div class="fade-text" id="resetText">Resetting your device</div>
+  <div class="static-text">Do Not Turn Off your Device</div>
+
+  <script>
+    let cycles = 0;
+    const maxCycles = 10;
+    const text = document.getElementById("resetText");
+
+    text.addEventListener("animationiteration", () => {
+      cycles++;
+      if (cycles >= maxCycles) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <title>Enter Your Name</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        p, h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 250px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .fun-message {
+            font-size: 14px;
+            color: gray;
+            margin-top: 10px;
+        }
+
+        #language-selection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <p>Please enter your name</p>
+    <input type="text" id="nameInput" placeholder="Please enter your name" oninput="showDropdown()">
+
+    <h3>You will be logged in with this name</h3>
+
+    <div id="language-selection">
+        <p>Select language for the operating system</p>
+        <select>
+            <option value="english">English</option>
+        </select>
+        <p class="fun-message">Give us devs a break or we'll summon the Sink gods to go after you</p>
+    </div>
+
+    <button onclick="redirectUser()">Submit</button>
+
+    <script>
+        function showDropdown() {
+            const name = document.getElementById('nameInput').value;
+            const dropdown = document.getElementById('language-selection');
+            dropdown.style.display = name.trim() !== '' ? 'block' : 'none';
+        }
+
+        function redirectUser() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name !== '') {
+                localStorage.setItem('sinkUsername', name);
+                window.location.href = 'finishing.html';
+            } else {
+                alert('Please enter your name before proceeding.');
+            }
+        }
+    </script>
+
+</body>
+</html>

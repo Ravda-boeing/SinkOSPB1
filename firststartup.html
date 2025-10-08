@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink OS Boot</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #boot-image, #boot-text {
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #boot-image {
+      max-width: 80%;
+      height: auto;
+    }
+
+    h3 {
+      font-style: italic;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="startupSound" src="0626.mp3"></audio>
+  <img src="Version 1.jpg" alt="Sink OS Boot Image" id="boot-image" />
+  <h3 id="boot-text">Welcome to Sink OS</h3>
+
+  <script>
+    const image = document.getElementById("boot-image");
+    const text = document.getElementById("boot-text");
+    const sound = document.getElementById("startupSound");
+
+    const username = localStorage.getItem('sinkUsername') || 'User';
+    text.textContent = `Welcome to Sink OS, ${username}`;
+
+    setTimeout(() => {
+      image.style.opacity = 1;
+      text.style.opacity = 1;
+
+      sound.play().catch(() => {
+        document.body.addEventListener('click', () => sound.play(), { once: true });
+      });
+
+      setTimeout(() => {
+        image.style.opacity = 0;
+        text.style.opacity = 0;
+
+        setTimeout(() => {
+          window.location.href = "actual.html";
+        }, 2000);
+      }, 5000);
+
+    }, 5000);
+  </script>
+</body>
+</html>

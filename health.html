@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sink OS – Health Log</title>
+  <script defer src="script.js"></script>
+    <style>
+    body {
+      background: #0a0a15;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2em;
+      display: flex;
+      justify-content: center;
+    }
+    .sink-health-widget {
+      background: #1e1e2f;
+      border: 1px solid #444;
+      padding: 2em;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    }
+
+    .sink-health-widget h2 {
+      color: #4ff;
+      margin-top: 0;
+    }
+
+    .sink-health-widget h3 {
+      margin-top: 2em;
+      color: #aaa;
+    }
+
+    .sink-health-widget label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+
+    .sink-health-widget input,
+    .sink-health-widget textarea,
+    .sink-health-widget select {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.3em;
+      border: none;
+      border-radius: 6px;
+      background: #2a2a3a;
+      color: #fff;
+    }
+
+    .sink-health-widget textarea {
+      resize: vertical;
+    }
+
+    .sink-health-widget input[type="checkbox"] {
+      width: auto;
+      transform: scale(1.1);
+      margin-right: 0.5em;
+    }
+
+    .sink-health-widget button {
+      margin-top: 1.5em;
+      padding: 0.6em 1.2em;
+      background: #4ff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .sink-health-widget button:hover {
+      background: #0ff;
+    }
+
+    #log-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #log-list li {
+      background: #2d2d3d;
+      padding: 0.75em;
+      margin-top: 0.5em;
+      border-left: 4px solid #4ff;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+      /* Start Menu Styles */
+      #start-menu {
+        display: none;
+        position: absolute;
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(30, 30, 30, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        width: 220px;
+        z-index: 999;
+        text-align: center;
+      }
+
+      #start-menu.visible {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      } 
+
+      .start-menu-item {
+        padding: 10px;
+        background: rgb(255, 255, 255);
+        border-radius: 6px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .start-menu-item:hover {
+        background: rgb(255, 255, 255);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 20px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+<div class="taskbar">
+  <div class="start-button">🌀 Sink</div>
+
+  <div class="taskbar-icons">
+    <a href="settings.html" class="task-icon" title="Settings">⚙️</a>
+    <a href="browser.html" class="task-icon" title="Sink Browser">🌐</a>
+    <a href="ai.html" class="task-icon" title="AI">🧠</a>
+    <a href="writer.html" class="task-icon" title="writer">📃</a>
+    <a href="sinkexplorer.html" class="task-icon" title="Sink Explorer">🗂️</a>
+    <a href="create.html" class="task-icon" title="Cue Card creator">📺</a>
+    <a href="email.html" class="task-icon" title="Sink OS email">📨</a>
+    <a href="bg.html" class="task-icon" title="Background">🖥️ </a>
+    <a href="health.html" class="task-icon" title="health check">🩺</a>
+  </div>
+      <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Start Menu -->
+    <div id="start-menu" class="start-menu">
+      <div class="start-menu-item" id="shutdown-btn">🔻 Shutdown</div>
+    </div>
+
+    <script>
+      const startButton = document.querySelector(".start-button");
+      const startMenu = document.getElementById("start-menu");
+      const shutdownBtn = document.getElementById("shutdown-btn");
+
+      startButton.addEventListener("click", () => {
+        startMenu.classList.toggle("visible");
+      });
+
+      shutdownBtn.addEventListener("click", () => {
+        // Future improvement: Replace with animation or Sink Type S power-down
+        alert("Confirm shutdown? 💤");
+        document.body.style.transition = "opacity 1s ease";
+        document.body.style.opacity = 0; 
+        setTimeout(() => {
+          window.location.href = "shutdown.html"; // Mock "shutdown" screen
+        }, 1000);
+      });
+
+      // Optional: Add real-time clock logic if needed
+      function updateClock() {
+        const now = new Date();
+        document.getElementById("clock").textContent = now.toLocaleTimeString();
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+</head>
+<body>
+  <div class="sink-health-widget">
+    <h2>🩺 Health Log – Sink OS</h2>
+    <form id="health-form">
+      <label for="timestamp">🕒 Time:</label>
+      <input type="datetime-local" id="timestamp" required>
+
+      <label for="symptoms">💬 What did you feel?</label>
+      <textarea id="symptoms" placeholder="E.g. blacked out briefly, felt dizzy, headache" rows="3" required></textarea>
+
+      <label for="severity">📈 Severity:</label>
+      <select id="severity">
+        <option value="mild">Mild</option>
+        <option value="moderate">Moderate</option>
+        <option value="severe">Severe</option>
+      </select>
+
+      <label>
+        <input type="checkbox" id="stood-up-quickly" />
+        Stood up quickly before symptoms occurred
+      </label>
+
+      <button type="submit">➕ Log Entry</button>
+    </form>
+
+    <div id="log-history">
+      <h3>📜 Logged Entries</h3>
+      <ul id="log-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('health-form');
+    const logList = document.getElementById('log-list');
+
+    window.addEventListener('load', () => {
+      const logs = JSON.parse(localStorage.getItem('healthLogs')) || [];
+      logs.forEach(displayLog);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const entry = {
+        time: document.getElementById('timestamp').value,
+        symptoms: document.getElementById('symptoms').value.trim(),
+        severity: document.getElementById('severity').value,
+        stoodUpQuickly: document.getElementById('stood-up-quickly').checked
+      };
+
+      const logs = JSON.parse(localStorage.getItem('healthLogs')) || [];
+      logs.push(entry);
+      localStorage.setItem('healthLogs', JSON.stringify(logs));
+
+      displayLog(entry);
+      form.reset();
+    });
+
+    function displayLog(entry) {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${entry.time}</strong> — ${entry.symptoms} 
+        <em>(${entry.severity})</em> ${entry.stoodUpQuickly ? '⚠️ Stood up fast' : ''}`;
+      logList.appendChild(li);
+    }
+  </script>
+</body>
+</html>

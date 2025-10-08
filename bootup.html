@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink OS Boot</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #boot-image, #boot-text {
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #boot-image {
+      max-width: 80%;
+      height: auto;
+    }
+
+    h3 {
+      font-style: italic;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="startupSound" src="0626.mp3"></audio>
+  <img src="Version 1.jpg" alt="Sink OS Boot Image" id="boot-image" />
+  <h3 id="boot-text">Priv Beta 3. Codename Water</h3>
+
+  <script>
+    const image = document.getElementById("boot-image");
+    const text = document.getElementById("boot-text");
+    const sound = document.getElementById("startupSound");
+
+    // Start sequence after 5s delay
+    setTimeout(() => {
+      image.style.opacity = 1;
+      text.style.opacity = 1;
+
+      // Try to play the startup sound
+      sound.play().catch(() => {
+        // If autoplay is blocked, wait for user interaction
+        document.body.addEventListener('click', () => sound.play(), { once: true });
+      });
+
+      // Hold screen for 5s while sound plays
+      setTimeout(() => {
+        image.style.opacity = 0;
+        text.style.opacity = 0;
+
+        // Redirect after fade-out
+        setTimeout(() => {
+          window.location.href = "lockscreen.html";
+        }, 2000);
+      }, 5000);
+
+    }, 5000); // Initial delay before fade-in
+  </script>
+</body>
+</html>

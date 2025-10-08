@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Set Password - Sink OS</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background: #2c2c3e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #00bcd4;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0097a7;
+    }
+    .error {
+      color: #f44336;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Set Your Password</h2>
+    <input type="password" id="password" placeholder="Enter password" />
+    <input type="password" id="confirmPassword" placeholder="Confirm password" />
+    <button onclick="setPassword()">Next</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <script>
+    function setPassword() {
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (pass === "" || confirm === "") {
+        errorMsg.textContent = "Please fill in both fields.";
+        return;
+      }
+
+      if (pass !== confirm) {
+        errorMsg.textContent = "Passwords do not match.";
+        return;
+      }
+
+      // Store password (not secure—should be hashed in real-world apps)
+      localStorage.setItem("sinkOSPassword", pass);
+      window.location.href = "lockscreen.html";
+    }
+  </script>
+</body>
+</html>

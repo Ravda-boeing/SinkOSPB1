@@ -1,0 +1,53 @@
+body {
+  background: black;
+  margin: 0;
+  overflow: hidden;
+}
+
+#boot-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: flicker 0.3s infinite;
+}
+
+#boot-image {
+  width: 60%;
+  max-width: 800px;
+  filter: brightness(1.1) contrast(1.2);
+  animation: glitchImage 1.5s infinite;
+}
+
+.glitch-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4em;
+  color: #00ffff;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+  animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchImage {
+  0% { transform: translate(0); }
+  15% { transform: translate(-3px, 2px); }
+  30% { transform: translate(2px, -3px); }
+  45% { transform: translate(-1px, 1px); }
+  60% { transform: translate(3px, -1px); }
+  75% { transform: translate(-2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}

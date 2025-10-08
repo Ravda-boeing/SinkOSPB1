@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink.log</title>
+</head>
+<body style="font-family: monospace; background: #111; color: #eee; padding: 2rem">
+  <h2>🗃️ Sink.log Viewer</h2>
+  <input id="logCmd" placeholder="Enter command..." style="width: 300px;" />
+  <button onclick="runLogCommand()">Run</button>
+  <pre id="logDisplay" style="margin-top:1rem; white-space: pre-wrap;"></pre>
+
+  <script src="sink-logger.js"></script>
+  <script>
+    function renderLogs(logs) {
+      const logDisplay = document.getElementById("logDisplay");
+      if (logs.length === 0) {
+        logDisplay.textContent = "No logs available.";
+      } else {
+        logDisplay.textContent = logs.map(log =>
+          `⏱️ ${log.timestamp}\n${log.summary}\n`
+        ).join("\n──────────────\n\n");
+      }
+    }
+
+    function runLogCommand() {
+      const cmd = document.getElementById("logCmd").value.trim();
+      if (cmd === "Sink.Del") {
+        localStorage.removeItem(LOG_KEY);
+        localStorage.removeItem(RECOVERY_KEY);
+        renderLogs([]);
+        alert("All logs deleted.");
+      } else if (cmd === "Sink.Recover") {
+        const archive = JSON.parse(localStorage.getItem(RECOVERY_KEY)) || [];
+        const now = Date.now();
+        const withinGrace = archive.filter(log =>
+          now - new Date(log.timestamp).getTime() <= (EXPIRY + GRACE_PERIOD)
+        );
+        localStorage.setItem(LOG_KEY, JSON.stringify(withinGrace));
+        alert("Recovered expired logs within grace period.");
+        renderLogs(withinGrace);
+      }
+    }
+
+    const currentLogs = JSON.parse(localStorage.getItem("sinkOSLogs")) || [];
+    renderLogs(currentLogs);
+  </script>
+</body>
+</html>

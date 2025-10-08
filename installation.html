@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <title>Sink OS Installation</title>
+    <link rel="stylesheets" href="style.css">
+    <style>
+        /* Styling for the dialog box */
+        .dialog-box {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        /* Loading bar container */
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        /* Loading bar itself */
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dialog-box">
+        <p>Installing Sink OS...</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        let progress = 0;
+        function updateProgress() {
+            if (progress < 100) {
+                progress++;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                setTimeout(updateProgress, 1000); // Update every second
+            } else {
+                window.location.href = 'setup.html'; // Redirect after 100 seconds
+            }
+        }
+        updateProgress(); // Start the loading process
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <title>Sink OS Word Forge</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+    #toolbar { margin-bottom: 10px; }
+    #editor {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: white;
+      overflow-y: auto;
+    }
+    select, button {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toolbar">
+    <select id="fontSelect">
+      <option value="Arial">Arial</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+
+    <select id="sizeSelect">
+      <option value="12px">12px</option>
+      <option value="16px" selected>16px</option>
+      <option value="20px">20px</option>
+      <option value="24px">24px</option>
+      <option value="32px">32px</option>
+    </select>
+
+    <button onclick="format('bold')"><b>B</b></button>
+    <button onclick="format('italic')"><i>I</i></button>
+    <button onclick="format('underline')"><u>U</u></button>
+    <button onclick="saveContent()">💾 Save</button>
+    <button onclick="loadContent()">📂 Load</button>
+  </div>
+
+  <div id="editor" contenteditable="true"></div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const fontSelect = document.getElementById('fontSelect');
+    const sizeSelect = document.getElementById('sizeSelect');
+
+    fontSelect.addEventListener('change', () => {
+      document.execCommand('fontName', false, fontSelect.value);
+    });
+
+    sizeSelect.addEventListener('change', () => {
+      document.execCommand('fontSize', false, "7"); // Hack: use size 7, then override
+      let spans = editor.querySelectorAll("font[size='7']");
+      spans.forEach(span => span.removeAttribute('size'));
+      spans.forEach(span => span.style.fontSize = sizeSelect.value);
+    });
+
+    function format(command) {
+      document.execCommand(command, false, null);
+    }
+
+    function saveContent() {
+      localStorage.setItem('sinkDocument', editor.innerHTML);
+      alert('Document saved to Sink Explorer!');
+    }
+
+    function loadContent() {
+      const saved = localStorage.getItem('sinkDocument');
+      if (saved) editor.innerHTML = saved;
+      else alert('No saved document found.');
+    }
+  </script>
+
+</body>
+</html>
