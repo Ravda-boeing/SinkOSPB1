@@ -7,7 +7,7 @@
     body {
       margin: 0;
       height: 100vh;
-      background: url('Version 1.jpg') no-repeat center center fixed;
+      background: url('version 1.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Segoe UI', sans-serif;
       color: white;
@@ -16,21 +16,19 @@
       justify-content: space-between;
     }
 
-    /* Time + Date */
     .time-container {
       text-align: center;
       margin-top: 50px;
     }
     .time {
-      font-size: 48px; /* smaller time */
+      font-size: 48px;
       font-weight: bold;
     }
     .date {
-      font-size: 18px; /* slightly smaller date */
+      font-size: 18px;
       margin-top: 8px;
     }
 
-    /* Bottom controls */
     .bottom-bar {
       display: flex;
       justify-content: flex-end;
@@ -50,7 +48,6 @@
       background: rgba(0,0,0,0.8);
     }
 
-    /* Overlay */
     #passwordOverlay {
       position: fixed;
       top: 0;
@@ -65,7 +62,6 @@
       z-index: 9999;
     }
 
-    /* Only the input box */
     #unlockPass {
       padding: 10px;
       font-size: 18px;
@@ -82,7 +78,6 @@
       text-align: center;
     }
 
-    /* Error shake */
     @keyframes shake {
       0% { transform: translateX(0); }
       25% { transform: translateX(-5px); }
@@ -96,20 +91,17 @@
   </style>
 </head>
 <body>
-  <!-- Time + Date -->
   <div class="time-container">
     <div class="time" id="time">00:00</div>
     <div class="date" id="date">January 1, 1970</div>
   </div>
 
-  <!-- Shutdown + Restart -->
   <div class="bottom-bar">
-    <button onclick="window.location.href='shutdownn.html'">Shutdown</button>
+    <button onclick="window.location.href='Shutdownn.html'">Shutdown</button>
     <button onclick="window.location.href='shutdownr.html'">Restart</button>
   </div>
 
   <script>
-    // Update time and date every second
     function updateTime() {
       const now = new Date();
       const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -121,9 +113,16 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    // Show overlay on Enter
+    // Trigger overlay on Enter key
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !document.getElementById("passwordOverlay")) {
+        showPasswordOverlay();
+      }
+    });
+
+    // Trigger overlay on screen tap or click
+    document.addEventListener("click", () => {
+      if (!document.getElementById("passwordOverlay")) {
         showPasswordOverlay();
       }
     });
@@ -149,20 +148,18 @@
           const enteredPass = passInput.value;
           const storedPass = localStorage.getItem("sinkOSPassword");
 
-          // Backdoor → ss.html
           if (enteredPass === "V'Z Y0PX3Q 0HG Y3G Z3 1A") {
             window.location.href = "ss.html";
             return;
           }
 
-          // Normal password check
           if (enteredPass === storedPass) {
             window.location.href = "bg.html";
           } else {
             errorMsg.textContent = "Password incorrect. Try again.";
             passInput.value = "";
             passInput.classList.remove("shake");
-            void passInput.offsetWidth; // restart animation
+            void passInput.offsetWidth;
             passInput.classList.add("shake");
           }
         }
@@ -171,5 +168,3 @@
   </script>
 </body>
 </html>
-
-
